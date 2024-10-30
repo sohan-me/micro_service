@@ -1,0 +1,38 @@
+services:
+  post-backend:
+    build: .
+    container_name: PostsBackend
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - posts-db
+    networks:
+      - shared_network
+
+
+  posts-db:
+    image : postgres:latest
+    container_name: PostsDB
+    restart: always
+    environment:
+      POSTGRES_USER: noob
+      POSTGRES_PASSWORD: Noob417@
+      POSTGRES_DB: posts_db
+      PGPORT: 5432
+    volumes:
+      - posts_data:/var/lib/postgresql/data
+    ports:
+      - 54322:5432
+    networks:
+      - shared_network
+
+networks: 
+  shared_network:
+    external: true
+
+
+volumes:
+  posts_data:
+

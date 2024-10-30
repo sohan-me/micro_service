@@ -1,0 +1,37 @@
+services:
+  comments-backend:
+    build: .
+    container_name: CommentsBackend
+    volumes:
+      - .:/app
+    ports:
+      - 8001:8001
+    depends_on:
+      - comments-db
+    networks:
+      - shared_network
+
+
+  comments-db:
+    image : postgres:latest
+    container_name: CommentsDB
+    restart: always
+    environment:
+      POSTGRES_USER: noob
+      POSTGRES_PASSWORD: Noob417@
+      POSTGRES_DB: comments_db
+      PGPORT: 5433
+    volumes:
+      - comments_data:/var/lib/postgresql/data
+    ports:
+      - 54323:5433
+    networks:
+      - shared_network
+
+networks: 
+  shared_network:
+    external: true
+
+
+volumes:
+  comments_data:
